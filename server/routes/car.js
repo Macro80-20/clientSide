@@ -14,7 +14,7 @@ const User = db["User"]
 
 /* GET CARS listing. */
  router.get('/',  (req, res)  => {
- Car.findAll({include: [{ as:"userCars"}]}).then(cars => {
+ Car.findAll({include: [{ model: User,as:"userCars"}]}).then(cars => {
      res.send(cars);
     });
   });

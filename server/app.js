@@ -8,7 +8,7 @@ const db=require('./models/index')
 const routes = require('./routes/index')
 
 const app = express(); 
-const port = 30001
+const port = 3001
 
 
   app.use(cors());  
@@ -27,11 +27,11 @@ app.use('/cars', routes.car);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/api/greeting', (req, res) => {
-  const name = req.query.name || 'World';
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
-});
+// app.get('/api/greeting', (req, res) => {
+//   const name = req.query.name || 'World';
+//   res.setHeader('Content-Type', 'application/json');
+//   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+// });
 
 
 
