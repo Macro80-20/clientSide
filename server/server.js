@@ -25,7 +25,7 @@ app.use('/users', routes.user);
 app.use('/cars', routes.car);
 // db.Car.findAll().then(resp => console.log(resp))
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/express_backend', (req, res) => res.send('Your express backend is connected to react'))
 
 // app.get('/api/greeting', (req, res) => {
 //   const name = req.query.name || 'World';
@@ -44,4 +44,4 @@ console.log(`Example app listening on port ${port}!`)
 
 // db["Car"].findAll({include: [{ model: db.User, as: "userCars"}]}).then(cars => console.log(cars))
 // db["User"].findAll().then(users => console.log(users))
-db["Car"].findAll().then(users => console.log(users))
+// db["Car"].findAll().then(users => console.log(users))
