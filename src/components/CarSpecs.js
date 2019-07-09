@@ -1,7 +1,7 @@
 import React from "react";
-import { List, Card, Icon, Image, Button, Item }  from 'semantic-ui-react'
+import { Button, Item }  from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-
+import ListOfCarDetails from './CarDetails'
 const CarSpecs= props => {
   const { car } = props;
   return ( 
@@ -36,28 +36,4 @@ const CarSpecs= props => {
 
 export default CarSpecs;
 
-const ListOfCarDetails = props => (
-  <List divided verticalAlign='middle'>
-    <List.Item>
-      <List.Content>
-        <List.Header>{props.color}</List.Header>
-      </List.Content>
-    </List.Item>
-    <List.Item>
-      <List.Content>
-        <List.Header >{props.fuelType}</List.Header>
-      </List.Content>
-    </List.Item>
-    <List.Item>
-      <List.Content>
-        <List.Header>{props.transmission}</List.Header>
-      </List.Content>
-    </List.Item>
-    <List.Item>
-      <List.Content>
-        <List.Header>Number of Owners: {props.numOfOwners}</List.Header>
-      </List.Content>
-    </List.Item>
-  </List>
-)
 

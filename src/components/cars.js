@@ -8,20 +8,18 @@ class Cars extends Component {
     
 return(
     <> 
-    <Item.Group itemsPerRow={2}>
-
+    <Item.Group>
      {this.props.cars.map(car=> 
-     <Car 
+        <Car 
         car={car}
         handleClickedCar = {() => this.props.handleClickedCar(car["id"])}
         key={car["id"]}
-         />
- )}
-
+        />
+    )}
     </Item.Group>
     </>
 )
-        }
+}
 }
 
 export default Cars
