@@ -58,12 +58,6 @@ console.log(`Example app listening on port ${port}!`)
 //     where: { id: 1 }}).then(user => console.log(user[0].test()))
   //*This one is about using the alias ot turn what cars belongs to the user 
 // db.User.findAll({
-//   where: { id: 1 }}).then(user => user[0].getUserCars()).then(resp => console.log(resp))
+//   where: { id: 38 }}).then(user => user[0].getUserCars()).then(resp => console.log(resp))
 
 
-
-  // Item.findOrCreate({...})
-  // .spread(function(item, created) {
-  //   console.log(item.get({
-  //     plain: true
-  //   })) // logs only the item data, if it was found or created

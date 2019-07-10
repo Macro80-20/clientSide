@@ -50,33 +50,34 @@ router.post('/login',(req,res) =>{
 router.post('/validate',(req,res) =>{
     // const token =req.headers['authorisation']
     // const decodedToken = jwt.verify(token,User.secret())
-    // // console.log(decodedToken.id)
     // User.findOne({
     //     where:{
     //         id: decodedToken.id
     //     }
     // })  // refactored this to within the model instead 
-    User.currentUser(req).then( currentUser =>{
+    User.currentUser(req)
+      .then( currentUser =>{
         if(!currentUser){
             res.send({error:"invalid username/password combination"})
         } else {
             res.send({email: currentUser.email, token: User.issueToken({id: currentUser.id})})
         }   
+      })
+}
+)
+
+
+router.get('/cars',(req,res) =>{
+    User.currentUser(req)
+    .then(currentUser => {
+        if(!currentUser){
+            res.send({error: 'Invalid Token'})
+        } else {
+            currentUser.getUserCars()
+            .then(usersCars=> res.send(userCars))
+        }
     })
-}
-)
+})
 
-
-router.post('/inventory',(req,res) =>{
-//     def inventory
-//     user = current_user
-//     if user
-//       render json: user.items
-//     else
-//       render json: { error: 'Invalid token.' }, status: 400
-//     end
-//   end
-}
-)
 
 module.exports = router;
