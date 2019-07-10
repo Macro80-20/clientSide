@@ -45,3 +45,25 @@ console.log(`Example app listening on port ${port}!`)
 // db["Car"].findAll({include: [{ model: db.User, as: "userCars"}]}).then(cars => console.log(cars))
 // db["User"].findAll().then(users => console.log(users))
 // db["Car"].findAll().then(users => console.log(users))
+
+
+ //*This one is about testing and seeing my class Methods in action
+// db["User"].bark()
+  //*This one is about returning the info i want from our sequelize object 
+// db.User.findAll({
+//   where: { name: "Test" }}).then(user => console.log(user[0].dataValues))
+
+  //* This one is about using instance methods 
+//   db.User.findAll({
+//     where: { id: 1 }}).then(user => console.log(user[0].test()))
+  //*This one is about using the alias ot turn what cars belongs to the user 
+// db.User.findAll({
+//   where: { id: 1 }}).then(user => user[0].getUserCars()).then(resp => console.log(resp))
+
+
+
+  // Item.findOrCreate({...})
+  // .spread(function(item, created) {
+  //   console.log(item.get({
+  //     plain: true
+  //   })) // logs only the item data, if it was found or created

@@ -19,9 +19,10 @@ const User = db["User"]
     });
   });
 
-
-/* Get the users Listing of the car */
-router.get('/:userId',  (req, res)  => {
+// This piece of code is removed and place on the user route instead , i am going to change up the fetch request on front end now 7:51 
+/* Get the users Listing of the car chainge this on postman to  */
+router.get('/inventory',  (req, res)  => {
+  //if the user is equal to the current user then we do this 
   Car.findAll({
       where: { id: req.params.userId },
       include: [{model:User, as:"userCars"}]

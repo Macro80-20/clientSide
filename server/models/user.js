@@ -1,4 +1,8 @@
 'use strict';
+const jwt  = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 5;
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: { 
@@ -49,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         //     }, 
         //   }, 
       } 
-  }) 
+  },{}) 
   // Now, in case a user is deleted, 
   // we may want to cascade delete 
   // for all messages in relation to the user. 
@@ -57,7 +61,52 @@ module.exports = (sequelize, DataTypes) => {
   foreignKey: 'userId',
   as: 'userCars',
   onDelete: 'CASCADE',
+
+  
  })
-    
+
+
+
+ //hook function get called after // User.create({name: 'Cody', password: '123'}), and run before new User is saved in the db
+User.beforeCreate(async (userInstance,options) => {
+  // auto-gen a salt and hash
+  let encryptedPassword = await bcrypt.hash(userInstance.password, saltRounds)
+  .then((hash) =>{
+    // Store hash in your password DB.
+   userInstance.password = hash;
+  });
+ return encryptedPassword
+});
+
+ //Class Methods
+User.bark = function(){
+   console.log("woof")
+};
+
+User.secret = function(){
+  return "ssh"
+}
+
+        //{id: user.id}
+User.issueToken= (data) => jwt.sign(data,User.secret())
+ 
+
+User.token = function(){
+
+}
+
+//Instance methods 
+User.prototype.test = () => {
+  console.log("WORKED")
+  };
+
+User.prototype.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.localPassword);
+   // Load hash from my password Db
+  // bcrypt.compareSync(myPlaintextPassword, hash);
+}
+
+
   return User;
 };
+
