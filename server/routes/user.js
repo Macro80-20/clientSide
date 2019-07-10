@@ -48,14 +48,15 @@ router.post('/login',(req,res) =>{
 })
 
 router.post('/validate',(req,res) =>{
-    const token =req.headers['authorisation']
-    const decodedToken = jwt.verify(token,User.secret())
-    // console.log(decodedToken.id)
-    User.findOne({
-        where:{
-            id: decodedToken.id
-        }
-    }).then( currentUser =>{
+    // const token =req.headers['authorisation']
+    // const decodedToken = jwt.verify(token,User.secret())
+    // // console.log(decodedToken.id)
+    // User.findOne({
+    //     where:{
+    //         id: decodedToken.id
+    //     }
+    // })  // refactored this to within the model instead 
+    User.currentUser(req).then( currentUser =>{
         if(!currentUser){
             res.send({error:"invalid username/password combination"})
         } else {
