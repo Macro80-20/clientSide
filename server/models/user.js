@@ -79,20 +79,17 @@ User.beforeCreate(async (userInstance,options) => {
 });
 
  //Class Methods
-User.bark = function(){
-   console.log("woof")
-};
 
 User.secret = function(){
   return "ssh"
 }
 
-        //{id: user.id}
+  //{id: user.id}
 User.issueToken= (data) => jwt.sign(data,User.secret())
  
 
-User.token = function(){
-
+User.token = function(req){
+return req.headers['auth']
 }
 
 //Instance methods 

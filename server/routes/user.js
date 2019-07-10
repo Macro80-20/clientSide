@@ -59,22 +59,11 @@ router.post('/validate',(req,res) =>{
         if(!currentUser){
             res.send({error:"invalid username/password combination"})
         } else {
-            res.send({email: user.email, token: User.issueToken({id: currentUser.id})})
+            res.send({email: currentUser.email, token: User.issueToken({id: currentUser.id})})
         }   
     })
 }
 )
-    
-  
-//     def validate
-//     user = current_user
-//     if user
-//       render json: { username: user.username, token: issue_token({ id: user.id }) }
-//     else
-//       render json: { error: 'User not found.' }, status: 404
-//     end
-//   end
-
 
 
 router.post('/inventory',(req,res) =>{
