@@ -1,28 +1,67 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch, Link } from 'react-router-dom'
-import { Button,  Grid, Container,Segment } from 'semantic-ui-react'
+import { Route, Switch, withRouter } from 'react-router-dom'
+// import { Button,  Grid, Container,Segment } from 'semantic-ui-react'
+import { validate } from './services/api'
 import NavBar from './components/NavBar'
-import LandingPage from './containers/Landingpage'
-import LatestPage from "./containers/Latestpage"
-import UsersListingsPage from './containers/UserCarspage'
+import LandingPage from './pages/Landing'
+import LatestPage from "./pages/Home"
+import ProfilePage from './pages/Profile'
 import CarSpecs from './components/CarSpecs'
-export default class App extends Component {
+
+ class App extends Component {
  state = {
+      email: "",
       cars: [],
       selectedCar: {},
     };
 
+    //In the loginForm handleSubmit method we will pass on the response from loginRoute
+    // then we set state to have our userEmail and pass to local storage our token
+  signin = (user) => {
+     this.setState({ email: user.email })
+     localStorage.setItem('token', user.token)
+     this.props.history.push('/inventory')
+    }
 
+    signout = () => {
+      this.setState({ email: '' })
+      localStorage.removeItem('token')
+    }
+
+    session = () => {
+      if (localStorage.token) {
+        validate()
+          .then(data => {
+            if (data.error) {
+              alert(data.error)
+            } else {
+              this.signin(data)
+            }
+          })
+      }
+  
+    }
+    
   handleClickedCar = (carId) => {
     let selectedCar = this.state.cars.find(car => car["id"] === carId);
     this.setState({selectedCar: selectedCar});
   }
-  handleChange(event) {
-    this.setState({ name: event.target.value });
-  }
+  // handleChange(event) {
+  //   this.setState({ name: event.target.value });
+  // }
 
   componentDidMount () {
     this.fetchCars()
+    if (localStorage.token) {
+      validate()
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          } else {
+            this.signin(data)
+          }
+        })
+    }
   }
 
   fetchCars = () =>
@@ -31,15 +70,16 @@ export default class App extends Component {
   .then(carsData => this.setState({cars: carsData}));
 
   render() {
-    const { selectedCar } = this.state 
+    const { signin, signout } = this
+    const { selectedCar, email } = this.state 
     return (
-      <div  className="App">
-        <NavBar/>
+      <div className="App">
+        <NavBar signout={signout}/>
         <Switch>
           <Route
             path='/'
             render={props => (
-              <LandingPage {...props}/>
+              <LandingPage signin={signin}{...props}/>
             )}
             exact
           />
@@ -58,9 +98,9 @@ export default class App extends Component {
             exact
           />
           <Route
-            path='/listings'
+            path='/inventory'
             render={props => (
-              <UsersListingsPage {...props}/>
+              <ProfilePage email={email} {...props}/>
             )}
             exact
           />
@@ -70,7 +110,7 @@ export default class App extends Component {
     );
   }
 }
-
+export default withRouter(App)
   //   componentDidMount() {
   //     // Call our fetch function below once the component mounts
   //   this.callBackendAPI()

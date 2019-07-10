@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, Icon, Button, Modal, Image, Header, Checkbox, Form } from 'semantic-ui-react'
-import Login from './LoginModal'
+import LoginModal from '../containers/LoginModal'
 import { Link } from 'react-router-dom'
 
 
 
-const Headers= () => {
+const userOptions= props => {
 return(
 <div className="ui centered cards">
   <div className="ui card">
@@ -15,7 +15,7 @@ return(
       <div className="description">
       First two pictures are free
       </div>
-      <Login/>
+      <LoginModal signin={props.signin} />
     </div>
   </div>
   <div className="ui card">
@@ -33,5 +33,5 @@ return(
 )
 }
 
-export default Headers
+export default userOptions
 

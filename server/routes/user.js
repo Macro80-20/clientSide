@@ -67,14 +67,14 @@ router.post('/validate',(req,res) =>{
 )
 
 
-router.get('/cars',(req,res) =>{
+router.get('/listings',(req,res) =>{
     User.currentUser(req)
     .then(currentUser => {
         if(!currentUser){
             res.send({error: 'Invalid Token'})
         } else {
             currentUser.getUserCars()
-            .then(usersCars=> res.send(userCars))
+            .then(usersCars=> res.send(usersCars))
         }
     })
 })

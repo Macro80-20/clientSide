@@ -1,5 +1,5 @@
 import React, { Component , Fragment } from 'react'
-import Headers from '../components/LandingHeaders'
+import UserOptions from '../components/LandingOptions'
 
 
 
@@ -8,9 +8,9 @@ export default class LandingPage extends Component {
     render(){
         return(
             <>
-            <Headers/>
-            {/* SignUp/Form (Modal) with button to take us to listing router */}
+            <UserOptions signin={this.props.signin}/>
             </>
         )
     }
 }
+

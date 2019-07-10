@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Input, Menu, Segment } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Button, Menu, Segment } from 'semantic-ui-react'
 import Cars from './cars'
-import LatestPage from '../containers/Latestpage'
-export default class MenuExampleTabularOnTop extends Component {
+import LatestPage from '../pages/Home'
+
+export default class NavBar extends Component {
   state = { activeItem: '' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -15,12 +17,20 @@ export default class MenuExampleTabularOnTop extends Component {
         <Menu attached='top' tabular>
           <Menu.Item 
           name='Latest' 
-          active={activeItem === 'Latest'} onClick={this.handleItemClick} />
+          active={activeItem === 'Latest'} onClick={this.handleItemClick}>
+            <Link to="/latest"></Link>
+          </Menu.Item>
+
           <Menu.Item
             name='Listings'
             active={activeItem === 'Listings'}
-            onClick={this.handleItemClick}
-          />
+            onClick={this.handleItemClick}>
+            <Link to="/inventory"></Link>
+          </Menu.Item>
+
+         <Menu.Item>
+          {/* <Button onClick={this.props.signout}>LogOut</Button> */}
+         </Menu.Item>
         </Menu>
         {/* <Segment attached='bottom'>
         </Segment> */}

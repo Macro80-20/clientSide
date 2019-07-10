@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const db=require('./models/index')
 const routes = require('./routes/index')
 
-const app = express(); 
+const app = express().use("*",cors());
 const port = 3001
 
 

@@ -1,10 +1,10 @@
 
 import { Link } from 'react-router-dom'
 import React, { Component, Fragment } from 'react'
-import { Card, Grid, Icon, Button, Modal, Image, Header, Checkbox, Form, Message, Segment } from 'semantic-ui-react'
+import { Icon, Button, Modal, Checkbox, Form } from 'semantic-ui-react'
+import { signup } from '../services/api'
 
-
-class NestedSignUpModal extends Component {
+export default class SignUpModal extends Component {
   state = { open: false }
 
   open = () => this.setState({ open: true })
@@ -57,43 +57,3 @@ class NestedSignUpModal extends Component {
     )
   }
 }
-const LoginModal = () => (
-  <Modal trigger={<Button>List car</Button>}>
-   <Header as='h2' color='teal' textAlign='center'>
-       Log-in to your account
-      </Header>
-    <Modal.Content>
-      <LoginForm/>
-    </Modal.Content>
-    <Modal.Actions>
-      <NestedSignUpModal/>
-    </Modal.Actions>
-  </Modal>
-)
-
-
-
-const LoginForm = () => (
-  <>
-      <Form size='large'>
-        <Segment stacked>
-          <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-          <Form.Input
-            fluid
-            icon='lock'
-            iconPosition='left'
-            placeholder='Password'
-            type='password'
-          />
-
-          <Button color='teal' fluid size='large' className="ui button">
-            <Link to='/listings'>Login</Link>
-            </Button>
-        </Segment>
-      </Form>
-      </>
-)
-
-
-
-export default LoginModal
