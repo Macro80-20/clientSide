@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from "react"
+import { Link, Switch } from 'react-router-dom'
 import Car from '../components/car'
 import { getListings } from '../services/api'
 
 
-export default class Body extends Component {
+export default class Profile extends Component {
     state = {
         listings: [],
       }
@@ -16,7 +17,7 @@ export default class Body extends Component {
       } 
       
       // from the session that runs on each mount, we can send token on api 
-      setListings = () => {
+      renderListings = () => {
         getListings()
           .then(data => {
             if (data.error) {
@@ -29,10 +30,10 @@ export default class Body extends Component {
       // on mount i am checking for an email, passed through by app , 
       //if nada we go do differnt route/ . or we pass listings which has our token inside the api and set listings 
     componentDidMount () {
-        if (!this.props.email) {
-          this.props.history.push('/latest')
+        if (localStorage.token.length > 0) {
+          this.renderListings()
         } else {
-          this.setListings()
+          this.props.history.push('/latest')
         }
       }
     render(){

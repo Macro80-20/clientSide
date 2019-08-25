@@ -19,7 +19,6 @@ const User = db["User"]
     });
   });
 
-// This piece of code is removed and place on the user route instead , i am going to change up the fetch request on front end now 7:51 
 /* Get the users Listing of the car chainge this on postman to  */
 router.get('/inventory',  (req, res)  => {
   //if the user is equal to the current user then we do this 
@@ -53,6 +52,8 @@ router.post("/", (req, res) => {
       .catch(err => console.log(err));
   });
 
+
+  // USER CAN UUPDATE THEIR CAR SPECS 
   router.put('/:userId', (req, res)  => {
    let privateParams = {}
     for (const key in req.body) {

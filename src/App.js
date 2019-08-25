@@ -4,15 +4,15 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { validate } from './services/api'
 import NavBar from './components/NavBar'
 import LandingPage from './pages/Landing'
-import LatestPage from "./pages/Home"
+import HomePage from "./pages/Home"
 import ProfilePage from './pages/Profile'
 import CarSpecs from './components/CarSpecs'
 
  class App extends Component {
  state = {
-      email: "",
       cars: [],
       selectedCar: {},
+      email: "",
     };
 
     //In the loginForm handleSubmit method we will pass on the response from loginRoute
@@ -20,36 +20,20 @@ import CarSpecs from './components/CarSpecs'
   signin = (user) => {
      this.setState({ email: user.email })
      localStorage.setItem('token', user.token)
-     this.props.history.push('/inventory')
+    //  this.props.history.push('/listings')
     }
 
-    signout = () => {
-      this.setState({ email: '' })
-      localStorage.removeItem('token')
-    }
-
-    session = () => {
-      if (localStorage.token) {
-        validate()
-          .then(data => {
-            if (data.error) {
-              alert(data.error)
-            } else {
-              this.signin(data)
-            }
-          })
-      }
-  
-    }
+  signout = () => {
+    this.setState({ email: '' })
+    localStorage.removeItem('token')
+    this.props.history.push('/latest')
+  }
     
   handleClickedCar = (carId) => {
     let selectedCar = this.state.cars.find(car => car["id"] === carId);
     this.setState({selectedCar: selectedCar});
   }
-  // handleChange(event) {
-  //   this.setState({ name: event.target.value });
-  // }
-
+ 
   componentDidMount () {
     this.fetchCars()
     if (localStorage.token) {
@@ -57,11 +41,15 @@ import CarSpecs from './components/CarSpecs'
         .then(data => {
           if (data.error) {
             alert(data.error)
+            this.props.history.push('/')
+            // this.fetchCars()
           } else {
             this.signin(data)
+            // this.fetchCars()
           }
         })
     }
+   
   }
 
   fetchCars = () =>
@@ -71,7 +59,7 @@ import CarSpecs from './components/CarSpecs'
 
   render() {
     const { signin, signout } = this
-    const { selectedCar, email } = this.state 
+    const { selectedCar } = this.state 
     return (
       <div className="App">
         <NavBar signout={signout}/>
@@ -84,9 +72,9 @@ import CarSpecs from './components/CarSpecs'
             exact
           />
           <Route
-            path='/latest'
+            path='/home'
             render={props => (
-              <LatestPage {...props} cars={this.state.cars} selectedCar={selectedCar} handleClickedCar={this.handleClickedCar}/>
+              <HomePage {...props} cars={this.state.cars} selectedCar={selectedCar} handleClickedCar={this.handleClickedCar}/>
             )}
             exact
           />
@@ -98,32 +86,15 @@ import CarSpecs from './components/CarSpecs'
             exact
           />
           <Route
-            path='/inventory'
+            path='/profile'
             render={props => (
-              <ProfilePage email={email} {...props}/>
+              <ProfilePage {...props} email={this.state.email} />
             )}
             exact
           />
         </Switch> 
-        {/* </Container> */}
       </div>
     );
   }
 }
 export default withRouter(App)
-  //   componentDidMount() {
-  //     // Call our fetch function below once the component mounts
-  //   this.callBackendAPI()
-  //     .then(res => this.setState({ data: res.express }))
-  //     .catch(err => console.log(err));
-  // }
-  //   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  // callBackendAPI = async () => {
-  //   const response = await fetch('/express_backend');
-  //   const body = await response.json();
-
-  //   if (response.status !== 200) {
-  //     throw Error(body.message) 
-  //   }
-  //   return body;
-  // };

@@ -1,7 +1,5 @@
 const express = require('express');
 var createError = require('http-errors');
-const faker = require("fakergem");
-// const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db=require('./models/index')
@@ -12,11 +10,13 @@ const port = 3001
 
 
   app.use(cors());  
+  //** Check what this module does, i have sneaky suscipision that its all aboout parsing everything that comes in req into js object  */
   app.use(bodyParser.json()); 
   app.use(bodyParser.urlencoded({ extended: true })); 
   // // Log requests to the console.
   // app.use(logger('dev'));
 
+// To play with 
 // app.use((req, res, next) => {
 //   next(createError(404));
 // });
@@ -49,6 +49,7 @@ console.log(`Example app listening on port ${port}!`)
 
  //*This one is about testing and seeing my class Methods in action
 // db["User"].bark()
+
   //*This one is about returning the info i want from our sequelize object 
 // db.User.findAll({
 //   where: { name: "Test" }}).then(user => console.log(user[0].dataValues))

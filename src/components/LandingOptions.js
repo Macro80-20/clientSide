@@ -1,5 +1,4 @@
 import React from 'react'
-import { Card, Icon, Button, Modal, Image, Header, Checkbox, Form } from 'semantic-ui-react'
 import LoginModal from '../containers/LoginModal'
 import { Link } from 'react-router-dom'
 
@@ -25,8 +24,7 @@ return(
       <div className="description">
       Latest Brand New Deals 
       </div>
-     
-      <button className="ui button"><Link to='/latest'>Search</Link></button>
+      <button className="ui button"><Link to='/home'>Search</Link></button>
     </div>
   </div>
 </div>

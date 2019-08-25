@@ -1,12 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../models/index')
-const crypto = require('crypto')    
 const bcrypt = require('bcrypt')                         
 const User = db["User"]
-const jwt  = require('jsonwebtoken');
-// router.get()
-
 
 //register: storing name, email and password 
 router.post('/signup',  (req, res)  => {
@@ -27,7 +23,6 @@ router.post('/signup',  (req, res)  => {
 //login page: storing and comparing email and password
 //sign with authenticate 
 router.post('/login',(req,res) =>{
-    // console.log(req.headers['content-type'])
     User.findOne({
         where:{
             email: req.body.email
@@ -45,16 +40,18 @@ router.post('/login',(req,res) =>{
             }
             )}
     })
+    console.log("we made it")
 })
 
-router.post('/validate',(req,res) =>{
+router.get('/validate',(req,res) =>{
+    //The code below is what the currentUser method is executing behind the scenes 
     // const token =req.headers['authorisation']
     // const decodedToken = jwt.verify(token,User.secret())
     // User.findOne({
     //     where:{
     //         id: decodedToken.id
     //     }
-    // })  // refactored this to within the model instead 
+    // }) 
     User.currentUser(req)
       .then( currentUser =>{
         if(!currentUser){
@@ -63,7 +60,9 @@ router.post('/validate',(req,res) =>{
             res.send({email: currentUser.email, token: User.issueToken({id: currentUser.id})})
         }   
       })
+      console.log("we made it")
 }
+
 )
 
 
@@ -72,7 +71,7 @@ router.get('/listings',(req,res) =>{
     .then(currentUser => {
         if(!currentUser){
             res.send({error: 'Invalid Token'})
-        } else {
+        } else {        //this is the alias 
             currentUser.getUserCars()
             .then(usersCars=> res.send(usersCars))
         }
