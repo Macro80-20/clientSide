@@ -27,14 +27,9 @@ export default class Profile extends Component {
             }
           })
       }
-      // on mount i am checking for an email, passed through by app , 
-      //if nada we go do differnt route/ . or we pass listings which has our token inside the api and set listings 
+      // as we can only 
     componentDidMount () {
-        if (localStorage.token.length > 0) {
-          this.renderListings()
-        } else {
-          this.props.history.push('/latest')
-        }
+       this.renderListings()
       }
     render(){
       const { listings } = this.state

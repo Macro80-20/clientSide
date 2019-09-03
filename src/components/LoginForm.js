@@ -21,6 +21,7 @@ export default class LoginForm extends Component {
         } else {
           //if we pass authentication in this route , then we invoke our signIn method
           this.props.signin(data)
+          this.props.loginClick()
         }
       })
       // const { name, email } = this.state

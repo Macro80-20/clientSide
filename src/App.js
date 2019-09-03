@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 // import { Button,  Grid, Container,Segment } from 'semantic-ui-react'
-import { validate } from './services/api'
+import { validate , getListings } from './services/api'
 import NavBar from './components/NavBar'
 import LandingPage from './pages/Landing'
 import HomePage from "./pages/Home"
@@ -15,40 +15,39 @@ import CarSpecs from './components/CarSpecs'
       email: "",
     };
 
-    //In the loginForm handleSubmit method we will pass on the response from loginRoute
-    // then we set state to have our userEmail and pass to local storage our token
+ 
   signin = (user) => {
      this.setState({ email: user.email })
      localStorage.setItem('token', user.token)
-    //  this.props.history.push('/listings')
     }
 
   signout = () => {
     this.setState({ email: '' })
-    localStorage.removeItem('token')
-    this.props.history.push('/latest')
+    localStorage.removeItem('token') 
+    
   }
     
   handleClickedCar = (carId) => {
     let selectedCar = this.state.cars.find(car => car["id"] === carId);
     this.setState({selectedCar: selectedCar});
   }
- 
-  componentDidMount () {
-    this.fetchCars()
-    if (localStorage.token) {
+
+  session = () => {
+     if (localStorage.token) {
       validate()
         .then(data => {
           if (data.error) {
             alert(data.error)
-            this.props.history.push('/')
-            // this.fetchCars()
           } else {
             this.signin(data)
-            // this.fetchCars()
           }
         })
     }
+  } 
+ 
+  componentDidMount () {
+    this.fetchCars()
+    this.session()
    
   }
 
@@ -58,23 +57,49 @@ import CarSpecs from './components/CarSpecs'
   .then(carsData => this.setState({cars: carsData}));
 
   render() {
-    const { signin, signout } = this
-    const { selectedCar } = this.state 
+    const { signin, signout } = this;
+    const { selectedCar, email } = this.state; 
     return (
-      <div className="App">
-        <NavBar signout={signout}/>
-        <Switch>
+      <div className="App">    
+       <Switch>
+        {//if a user is not logged in when he clicks on / he is redirected to landing page
+         // if the user is logged in he can never go landing page.
+        }
+        <Route exact path="/" render={ props => (
+          localStorage.token?
+          <HomePage {...props} signnout= {signout} cars={this.state.cars} selectedCar={selectedCar} handleClickedCar={this.handleClickedCar}
+              />:
+          <Redirect to="/landing-page"/>
+        )}/>
+        <Route exact path="/landing-page" render={ props => (
+          localStorage.token
+          ?<Redirect to="/"/>
+          : <LandingPage  email = {this.state.email} signin={signin}{...props}/>
+      
+        )}/>
+
+
           <Route
-            path='/'
+            path='/landing-page'
             render={props => (
-              <LandingPage signin={signin}{...props}/>
+              <LandingPage  email = {this.state.email} signin={signin}{...props}/>
             )}
             exact
           />
           <Route
-            path='/home'
+            path='/profile'
             render={props => (
-              <HomePage {...props} cars={this.state.cars} selectedCar={selectedCar} handleClickedCar={this.handleClickedCar}/>
+              localStorage.token
+                ?  <ProfilePage {...props} email={this.state.email} /> 
+                :  <Redirect to="/cars"/>
+                )}
+            exact
+          />
+          <Route
+            path='/cars'
+            render={props => (
+              <HomePage signin={signin} {...props} signout={signout} cars={this.state.cars} selectedCar={selectedCar} handleClickedCar={this.handleClickedCar}
+              />
             )}
             exact
           />
@@ -85,16 +110,15 @@ import CarSpecs from './components/CarSpecs'
             )}
             exact
           />
-          <Route
-            path='/profile'
-            render={props => (
-              <ProfilePage {...props} email={this.state.email} />
-            )}
-            exact
-          />
+         
         </Switch> 
+       
       </div>
     );
   }
 }
 export default withRouter(App)
+
+
+
+

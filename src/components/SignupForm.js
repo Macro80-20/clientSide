@@ -1,11 +1,31 @@
 
-import { Link } from 'react-router-dom'
+import { Link,  withRouter, } from 'react-router-dom'
 import React, { Component, Fragment } from 'react'
 import { Icon, Button, Modal, Checkbox, Form } from 'semantic-ui-react'
-import { signup } from '../services/api'
+import { signup, login} from '../services/api'
 
-export default class SignUpModal extends Component {
-  state = { open: false }
+ class SignUpModal extends Component {
+  state = { 
+    open: false,
+    name: "",
+    username: "",
+    address: "",
+    email: "",
+    password: ""
+
+  }
+
+  handleChange = (event) => this.setState({ [event.target.name]: event.target.value });
+  
+  handleSubmit = () => {
+    signup(this.state).then(data => login(this.state.email , this.state.password)).then( info => {
+      // difference beween login and signin. is that login is api request which returns the users email and token.
+      // signin is then invoked to manage state for session. with an email 
+      this.props.signin(info)
+      this.props.history.push('/cars')
+    })
+
+  }
 
   open = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
@@ -27,23 +47,37 @@ export default class SignUpModal extends Component {
       >
         <Modal.Header>Register</Modal.Header>
         <Modal.Content>
-        <Form>
-          <Form.Field>
-            <label>name</label>
-            <input placeholder='name' />
-          </Form.Field>
-          <Form.Field>
-            <label>Username</label>
-            <input placeholder='username' />
-          </Form.Field>
-          <Form.Field>
-            <label>Email</label>
-            <input placeholder='email' />
-          </Form.Field>
-          <Form.Field>
-            <label>Password</label>
-            <input placeholder='password' />
-          </Form.Field>
+        <Form onSubmit = {this.handleSubmit}>
+        <Form.Input
+              placeholder='name'
+              name='name'
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+        <Form.Input
+              placeholder='username'
+              name='username'
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+        <Form.Input
+              placeholder='address'
+              name='address'
+              value={this.state.address}
+              onChange={this.handleChange}
+            />
+        <Form.Input
+              placeholder='email'
+              name='email'
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+        <Form.Input
+              placeholder='password'
+              name='password'
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
           <Form.Field>
             <Checkbox label='I agree to the Terms and Conditions' />
           </Form.Field>
@@ -57,3 +91,5 @@ export default class SignUpModal extends Component {
     )
   }
 }
+
+export default withRouter(SignUpModal)

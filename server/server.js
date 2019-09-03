@@ -1,20 +1,24 @@
-const express = require('express');
-var createError = require('http-errors');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+
+
 const db=require('./models/index')
 const routes = require('./routes/index')
 
+
+const createError = require('http-errors');
+// body-parser extract the entire body portion of an incoming request stream and exposes it on req.body.
+const bodyParser = require('body-parser');
+const express = require('express');
+const cors = require('cors');
+
+// * wildcard allows access from any origin.
 const app = express().use("*",cors());
 const port = 3001
 
 
-  app.use(cors());  
-  //** Check what this module does, i have sneaky suscipision that its all aboout parsing everything that comes in req into js object  */
-  app.use(bodyParser.json()); 
-  app.use(bodyParser.urlencoded({ extended: true })); 
-  // // Log requests to the console.
-  // app.use(logger('dev'));
+//returns middleware that only pares json and only looks at requests where the 
+// Content-type matches the type 
+app.use(bodyParser.json()); 
+// app.use(bodyParser.urlencoded({ extended: true })); // no need for this 
 
 // To play with 
 // app.use((req, res, next) => {
@@ -25,13 +29,10 @@ app.use('/users', routes.user);
 app.use('/cars', routes.car);
 // db.Car.findAll().then(resp => console.log(resp))
 
-app.get('/express_backend', (req, res) => res.send('Your express backend is connected to react'))
 
-// app.get('/api/greeting', (req, res) => {
-//   const name = req.query.name || 'World';
-//   res.setHeader('Content-Type', 'application/json');
-//   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
-// });
+
+// I am able to fetch from the client side
+app.get('/express_backend', (req, res) => res.send('Your express backend is connected to react'))
 
 
 
@@ -52,13 +53,13 @@ console.log(`Example app listening on port ${port}!`)
 
   //*This one is about returning the info i want from our sequelize object 
 // db.User.findAll({
-//   where: { name: "Test" }}).then(user => console.log(user[0].dataValues))
+//   where: { id: 2 }}).then(user => console.log(user[0].dataValues))
 
-  //* This one is about using instance methods 
+  //* This one is about using instance methods  , test() is the instance mwthod
 //   db.User.findAll({
 //     where: { id: 1 }}).then(user => console.log(user[0].test()))
   //*This one is about using the alias ot turn what cars belongs to the user 
 // db.User.findAll({
-//   where: { id: 38 }}).then(user => user[0].getUserCars()).then(resp => console.log(resp))
+//   where: { id: 1 }}).then(user => user[0].getUserCars()).then(resp => console.log(resp))
 
 

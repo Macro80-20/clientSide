@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   //       console.log("name")
   //     }
   //   },
-  
     model: DataTypes.STRING,
     make: DataTypes.STRING,
     color: DataTypes.STRING,
@@ -24,14 +23,11 @@ module.exports = (sequelize, DataTypes) => {
      userId: DataTypes.INTEGER,
   }, {
   });
+  
   Car.associate = (models)=> Car.belongsTo(models.User,{
     foreignKey: 'userId',
       as: 'userCars',
   })
-  
-  
   // instanceMethods:{ 
-   
-  
   return Car;
 }

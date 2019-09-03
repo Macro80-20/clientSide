@@ -10,6 +10,7 @@ export function signup (user) {
             name: user.name,
             username: user.username,
             address: user.address,
+            email: user.email,
             password: user.password,
         })
     }).then(resp => resp.json())

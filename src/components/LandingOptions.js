@@ -24,7 +24,7 @@ return(
       <div className="description">
       Latest Brand New Deals 
       </div>
-      <button className="ui button"><Link to='/home'>Search</Link></button>
+      <button className="ui button"><Link to='/cars'>Search</Link></button>
     </div>
   </div>
 </div>
