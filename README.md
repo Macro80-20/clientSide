@@ -19,12 +19,7 @@ https://github.com/sequelize/cli
 # Create a db; migrate schema; seed data; run application 
   
 1. npm install
-
-Type psql postgres or \q to exit postgres 
-2. create database [databasename] ;
-If you make a mistake 
-  drop database [databasename] ;
-
+2. psql postgres 
 3. create database [carsonethemarket]
 4. \c carsonthemarket 
    - \dt and you wil see there are no tables yet so now we wil migrate our schemas 
@@ -33,6 +28,7 @@ If you make a mistake
     - check the migration worked in postgre CLI : \dt  list the tables in the currently connected database
     - In my code you will see that i migrated updates to existing tables 
 6.  sequelize db:seed:all
+7. \q
 
 8.  command for running both sides of the application, from the root directoty 
     - npm run dev
